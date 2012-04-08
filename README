@@ -1,0 +1,19 @@
+This is a subclass of NSOpenGLView which uses a CVDisplayLink and ARC (automatic reference counting).
+
+CVDisplayLink provides a more consistent timeDelta for animating with. For example, if you hit a breakpoint, or some other slowdown, this will not cause animations to overshoot.
+
+This class can be use to set up an openGL view with minimal effort, it can be subclassed very easily.
+
+The methods of most interest for subclassing are these:
+
+- (CFTimeInterval)deltaTime;
+
+This is the time between frames, and is useful for animating with.
+
+- (void)animation;
+
+By default this does nothing, but a subclass can override it to to any necessary manipulation of model data.
+
+- (void)drawFrame;
+
+This is where drawing is done, a properly locked context is provided in this method and openGL calls can be made right away. By default the glClear() is called with a changing color to verify that the view is properly set up. Also, it is not necessary to flush the context.
